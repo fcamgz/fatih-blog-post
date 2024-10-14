@@ -1,5 +1,8 @@
-FROM openjdk:17
+FROM registry.access.redhat.com/ubi8/openjdk-17:latest
 LABEL maintainer="Fatih Camgoz"
 ENV CONFIG_SERVER_URL=http://localhost:8888
-COPY target/api-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+RUN yum install -y maven && \
+    mvn -version
+COPY . /app
+WORKDIR /app
+RUN mvn clean package
