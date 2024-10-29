@@ -1,7 +1,11 @@
 FROM openjdk:17-alpine
 
-EXPOSE 8080
+# Argument to pass in the JAR_FILE
+ARG JAR_FILE=target/*.jar
 
-COPY ./target/api-*.jar ROOT.jar
+# Copy your JAR file into the image
+COPY ${JAR_FILE} /deployments/app.jar
 
-ENTRYPOINT ["java", "-jar", "ROOT.jar"]
+# Set the default command to execute
+# when creating a new container
+CMD ["java", "-jar", "/deployments/app.jar"]
